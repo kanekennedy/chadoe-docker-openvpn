@@ -129,8 +129,8 @@ else
 fi
 
 # Apply defaults
-[ -z "$OVPN_PROTO" ] && OVPN_PROTO=udp
-[ -z "$OVPN_PORT" ] && OVPN_PORT=1194
+[ -z "$OVPN_PROTO" ] && OVPN_PROTO=tcp
+[ -z "$OVPN_PORT" ] && OVPN_PORT=443
 [ ${#OVPN_ROUTES[@]} -eq 0 ] && OVPN_ROUTES=("192.168.254.0/24")
 
 export OVPN_SERVER OVPN_ROUTES OVPN_DEFROUTE
@@ -166,7 +166,6 @@ key-direction 0
 keepalive 10 60
 persist-key
 persist-tun
-comp-lzo
 mute 20
 float
 remote-cert-eku "TLS Web Client Authentication"
@@ -177,8 +176,8 @@ tls-cipher TLS-ECDHE-RSA-WITH-AES-128-GCM-SHA256:TLS-ECDHE-ECDSA-WITH-AES-128-GC
 tls-version-min 1.2
 
 proto $OVPN_PROTO
-# Rely on Docker to do port mapping, internally always 1194
-port 1194
+# Rely on Docker to do port mapping, internally always 1194 = no
+port 443
 dev tun0
 status /tmp/openvpn-status.log
 
